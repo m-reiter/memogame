@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="images">
+        <item>@drawable/blue</item>
+        <item>@drawable/boat</item>
+        <item>@drawable/butterflies</item>
+        <item>@drawable/dragonfly</item>
+        <item>@drawable/pink</item>
+        <item>@drawable/sheep</item>
+        <item>@drawable/white</item>
+        <item>@drawable/yellow</item>
+    </array>
+
+</resources>
