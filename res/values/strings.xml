@@ -4,5 +4,9 @@
     <string name="app_name">MemoGame</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="player_1">Player 1</string>
+    <string name="player_2">Player 2</string>
+    <string name="won">\%%s won \%%d:\%%d</string>
+    <string name="tie">It\'s a tie at \%%d:\%%d</string>
 
 </resources>
