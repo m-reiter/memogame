@@ -217,14 +217,14 @@ public class MainActivity extends Activity {
 
 		String result;
 		if (mScores[0] > mScores[1]) {
-			result = String.format(getString(R.string.player_1),
-					getString(R.string.won, mScores[0], mScores[1]));
+			result = String.format(getString(R.string.won),
+					getString(R.string.player_1), mScores[0], mScores[1]);
 			tvPlayers[0].setVisibility(View.VISIBLE);
 			tvPlayers[1].setVisibility(View.GONE);
 			tvScores[isPlaying].setText(""+mScores[0]+":"+mScores[1]);
 		} else if (mScores[0] < mScores[1]) {
-			result = String.format(getString(R.string.player_1),
-					getString(R.string.won, mScores[1], mScores[0]));
+			result = String.format(getString(R.string.won),
+					getString(R.string.player_2), mScores[1], mScores[0]);
 			tvPlayers[1].setVisibility(View.VISIBLE);
 			tvPlayers[0].setVisibility(View.GONE);
 			tvScores[isPlaying].setText(""+mScores[1]+":"+mScores[0]);
