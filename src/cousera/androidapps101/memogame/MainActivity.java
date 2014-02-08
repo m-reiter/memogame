@@ -63,8 +63,8 @@ public class MainActivity extends Activity {
 		tvScores[1] = (TextView) findViewById(R.id.p2Score);
 
 		Resources res = getResources();
-		TypedArray images = res.obtainTypedArray(R.array.images);
 
+		TypedArray images = res.obtainTypedArray(R.array.images);
 		mImages = new int[nFields / 2];
 		for (i = 0; i < nFields / 2; i++) {
 			mImages[i] = images.getResourceId(i, -1);
@@ -72,7 +72,6 @@ public class MainActivity extends Activity {
 		images.recycle();
 
 		TypedArray buttons = res.obtainTypedArray(R.array.buttons);
-
 		mIds = new int[nFields];
 		mButtons = new ImageButton[nFields];
 		for (i = 0; i < nFields; i++) {
@@ -123,7 +122,6 @@ public class MainActivity extends Activity {
 		tvPlayers[1].setVisibility(View.GONE);
 		tvScores[1].setVisibility(View.GONE);
 		
-
 		// no image opened yet
 		mOpen = -1;
 		// no pairs discovered
@@ -149,12 +147,17 @@ public class MainActivity extends Activity {
 	public void play(View v) {
 		// button clicked
 		
+		// if we're finished, restart the game
+		if (finished) {
+			init();
+			return;
+		}
+		
 		// we're displaying a result right now, ignore clicks
 		if (pausing)
 			return;
 
 		int pos = -1;
-
 		for (pos = 0; pos < nFields; pos++) {
 			if (v.getId() == mIds[pos])
 				break;
@@ -254,6 +257,10 @@ public class MainActivity extends Activity {
 		}
 		Toast.makeText(this, result, Toast.LENGTH_LONG).show();
 		finished = true;
+		
+		for (int i = 0; i< nFields; i++) {
+			mButtons[i].setEnabled(true);
+		}
 	}
 
 	private void flash(boolean matching) {
