@@ -13,6 +13,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,7 @@ public class MainActivity extends Activity {
 	// misc helpers
 	private Random random;
 	private boolean pausing = false;
+	private int padding = 4; // given in dp, converted to pixels in onCreate
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +85,9 @@ public class MainActivity extends Activity {
 		mPositions = new int[nFields];
 
 		random = new Random();
+		
+		// convert padding to physical pixels
+		padding = (int) (padding * res.getDisplayMetrics().density + 0.5f);
 
 		init();
 	}
@@ -96,7 +101,8 @@ public class MainActivity extends Activity {
 			mPositions[i] = i / 2;
 			// reset button states
 			mButtons[i].setVisibility(View.VISIBLE);
-			mButtons[i].setImageResource(R.drawable.background);
+			mButtons[i].setImageResource(R.drawable.back);
+			pad(i);
 			mButtons[i].setEnabled(true);
 		}
 		// shuffle the playing deck
@@ -128,6 +134,11 @@ public class MainActivity extends Activity {
 		finished = false;
 	}
 
+	private void pad(int i) {
+		mButtons[i].setPadding(padding, padding, padding, padding);
+		mButtons[i].invalidate();
+	}
+
 	// @Override
 	// public boolean onCreateOptionsMenu(Menu menu) {
 	// // Inflate the menu; this adds items to the action bar if it is present.
@@ -149,11 +160,9 @@ public class MainActivity extends Activity {
 				break;
 		}
 
+		mButtons[pos].setPadding(1, 1, 1, 1);
 		mButtons[pos].setImageResource(mImages[mPositions[pos]]);
 		mButtons[pos].setEnabled(false);
-		mButtons[pos].post(new Scaler((View) mButtons[pos], 1.0f, 1.1f, 250));
-		mButtons[pos].postDelayed(new Scaler((View) mButtons[pos], 1.1f, 1.0f,
-				250), 250);
 
 		if (mOpen == -1) {
 			// first image revealed
@@ -166,6 +175,14 @@ public class MainActivity extends Activity {
 				mScores[isPlaying]++;
 				tvScores[isPlaying].setText("" + mScores[isPlaying]);
 				discovered++;
+				final int pos1 = pos;
+				final int pos2 = mOpen;
+				mButtons[pos].postDelayed(new Runnable() {
+					public void run() {
+						pad(pos1);
+						pad(pos2);
+					}
+				}, 250);
 				if (discovered == (nFields + 1) / 2)
 					endGame();
 			} else {
@@ -196,13 +213,15 @@ public class MainActivity extends Activity {
 				final int pos2 = mOpen;
 				mButtons[pos].postDelayed(new Runnable() {
 					public void run() {
-						mButtons[pos1].setImageResource(R.drawable.background);
+						pad(pos1);
+						mButtons[pos1].setImageResource(R.drawable.back);
 						mButtons[pos1].setEnabled(true);
-						mButtons[pos2].setImageResource(R.drawable.background);
+						pad(pos2);
+						mButtons[pos2].setImageResource(R.drawable.back);
 						mButtons[pos2].setEnabled(true);
 						pausing = false;
 					}
-				}, 500);
+				}, 250);
 			}
 			mOpen = -1;
 		}
@@ -271,27 +290,4 @@ class ColorChanger implements Runnable {
 		mView.setBackgroundColor(mColor);
 	}
 
-}
-
-class Scaler implements Runnable {
-
-	private View mView;
-	private float mFrom;
-	private float mTo;
-	private int mDuration;
-
-	public Scaler(View v, float from, float to, int duration) {
-		mView = v;
-		mFrom = from;
-		mTo = to;
-		mDuration = duration;
-	}
-
-	@Override
-	public void run() {
-		Animation anim = new ScaleAnimation(mFrom, mFrom, mTo, mTo,
-				mView.getWidth() / 2, mView.getHeight() / 2);
-		anim.setDuration(mDuration);
-		mView.startAnimation(anim);
-	}
 }
