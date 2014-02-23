@@ -1,4 +1,4 @@
-package cousera.androidapps101.memogame;
+package de.mreiter.memogame;
 
 import java.util.Random;
 
@@ -6,14 +6,11 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.ScaleAnimation;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
